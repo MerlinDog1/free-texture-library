@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Texture Library</title>
+    <title>🧱 SVG Pattern Library</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -22,201 +22,123 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle {
-            text-align: center;
-            color: #8b949e;
-            margin-bottom: 40px;
+        .subtitle { text-align: center; color: #8b949e; margin-bottom: 40px; }
+        .search {
+            width: 100%; max-width: 400px; margin: 0 auto 40px; display: block;
+            padding: 12px 16px; font-size: 16px; background: #161b22;
+            border: 1px solid #30363d; border-radius: 8px; color: #e6edf3;
         }
-        .search-box {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 40px;
-            display: block;
-            padding: 14px 20px;
-            font-size: 16px;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: #e6edf3;
-        }
-        .search-box:focus {
-            outline: none;
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 3px rgba(88,166,255,0.2);
-        }
+        .search:focus { outline: none; border-color: #58a6ff; }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
         }
         .card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: #161b22; border: 1px solid #30363d; border-radius: 12px;
+            overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
         }
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4);
             border-color: #58a6ff;
         }
-        .card-preview {
-            height: 120px;
-            background: #21262d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #8b949e;
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
+        .preview {
+            height: 100px; background: #21262d; display: flex; align-items: center;
+            justify-content: center; padding: 10px;
         }
-        .card-content { padding: 16px; }
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            word-break: break-all;
+        .preview svg { width: 100%; height: 100%; }
+        .info { padding: 12px; }
+        .name { font-size: 13px; font-weight: 600; margin-bottom: 8px; word-break: break-all; }
+        .btn {
+            display: inline-block; padding: 6px 12px; background: #238636; color: white;
+            text-decoration: none; border-radius: 6px; font-size: 12px;
         }
-        .card-link {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #238636;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 13px;
-            transition: background 0.2s;
-        }
-        .card-link:hover { background: #2ea043; }
-        .card-link.secondary {
-            background: #30363d;
-            margin-left: 8px;
-        }
-        .card-link.secondary:hover { background: #3d444d; }
-        .count {
-            text-align: center;
-            color: #8b949e;
-            margin-top: 40px;
-        }
+        .btn:hover { background: #2ea043; }
+        .count { text-align: center; color: #8b949e; margin-top: 40px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🧱 Free Texture Library</h1>
-        <p class="subtitle">Seamless textures for sign industry & design projects</p>
-        
-        <input type="text" class="search-box" placeholder="Search textures..." id="search">
-        
+        <h1>🧱 SVG Pattern Library</h1>
+        <p class="subtitle">Seamless SVG patterns for sign industry & design</p>
+        <input type="text" class="search" placeholder="Search patterns..." id="search">
         <div class="grid" id="grid"></div>
-        
         <p class="count" id="count"></p>
     </div>
-
     <script>
-        const textures = [
-            "3px-tile", "45-degree-fabric-dark", "45-degree-fabric-light", "60-lines", 
-            "absurdity", "ag-square", "always-grey", "arabesque", "argyle", "asphalt-dark",
-            "asphalt-light", "awful-foundation", "baby-cloth", "back-pattern", "balloon",
-            "bamboo", "banana-leaf", "bathroom-tile", "beige-tile", "birds", "black-scales",
-            "black-twill", "blizzard", "blood-splat", "blue-dust", "blue-snow", "board",
-            "bo-play", "brushed-alum", "brushed-stucco", "bubbles", "cable", "cake-frosting",
-            "camo", "canvas", "cardboard-flat", "cardboard", "cartographer", "chevron",
-            "chicken-coop", "china-paper", "chips", "christmas", "church", "circles",
-            "clever", "cloth-alibi", "cloth", "clouds", "cobblestone", "code", "coffee-beans",
-            "concrete-wall", "connected", "cork-screw", "cork", "cornice", "corona", "corrugation",
-            "cubes", "cushion", "cuttile", "daisy-meadow", "dark-matter", "dark-denim",
-            "dark-leather", "dark-mosaic", "dark-stripes", "daytripper", "debut-dust", "debut",
-            "delighted", "dent", "diagonal-striped", "diagonal", "diamonds-are-forever",
-            "diamond-eyes", "dirty-black", "dirty-cloth", "dmg", "dots", "double-l不止",
-            "drywall", "duck-concrete", "east-coast", "egg-shell", "elastoplast", "elegant",
-            "escher", "extra-clean-paper", "fabric-of-squares", "fade-gap", "fancy-deboss",
-            "fancy", "farm-fresh", "felt", "fiber", "fifties-flake", "film", "fire",
-            "fish-scales", "flame", "flannel", "flask", "fluid-bubble", "folded",
-            "follows", "fours", "frost", "frozen", "fur", "gaming", "geometric",
-            "ghost", "glamour", "glass", "gplay", "gradient-squares", "graphy", "graffiti",
-            "green-dust", "green-scales", "green-tissue", "grey-jeans", "grey-sand",
-            "grid-me", "grilled", "groovepaper", "gunmetal", "halftone", "hand", "heads",
-            "heart", "hearts", "hell-or-clean", "hex", "honeycomb", "hook", "horizons",
-            "hot-embroidery", "ice", "inflicted", "inhale", "ink", "interlaced",
-            "intrinse", "jade", "jeans", "jigsaw", "kafka", "kilim", "knitted-netting",
-            "kuro", "large-leather", "latex", "leaf", "leather", "leaves", "legal",
-            "lemon", "leopard", "light", "light-album", "light-grey-sand", "light-honeycomb",
-            "light-mesh", "light-ROTOP", "light-sketch", "lime-scales", "linen", "lines",
-            "little-plaid", "little-triangles", "loose-fabric", "lunar", "lush", "magnetic",
-            "man-p结构性", "marble", "marbles", "matrix", "me", "mega", "melon", "mesh",
-            "metal", "microbial", "micro-carbon", "micro-cubes", "micro-dot", "micro-lines",
-            "micro-plaid", "midnight", "milan", "milk-mosaic", "milky-way", "minimal",
-            "mint", "miracle", "mist", "mocha", "mooning", "mortar", "mosaic", "moss",
-            "mouth", "muck", "nami", "navy", "neon", "net", "no-borders", "noise",
-            "north-star", "nylon", "obscure", "ocean", "offset", "oil", "old-bull",
-            "old-coins", "old-curtain", "old-lace", "old-map", "old-math", "old-paper",
-            "old-wall", "olive", "onetime", "op-art", "optical", "orange-peel", "ornamental",
-            "otis-redding", "overcast", "p4", "painting", "paisley", "paper", "park",
-            "particles", "passion", "path", "pearlescent", "pebble", "pecky-cedar", "pegel",
-            "penny-farthing", "perspective", "peters-web", "petit", "pig",
-            "pigeon", "pin-cushion", "pineapple", "pink-wool", "pinstripe", "plaid",
-            "plant", "plateau", "plaid-tile", "plays", "plexiglass", "plum", "plus",
-            "pocket", "poetry", "poise", "polka-dots", "poly", "pool-table", "poor-withered",
-            "pop-art", "popcorn", "positive", "prague", "prickly", "program", "project",
-            "proud", "psychedelic", "pulse", "punk", "pure-white", "pyramid", "quilt",
-            "r-x", "racing", "radar", "rain", "ram", "random-subtle", "ravenna", "real-carbon",
-            "rebel", "red-ananas", "red-brick-wall", "redox", "refraction", "rest",
-            "rich", "ridge", "rip", "ripe-banana", "rock", "rojo", "roman", "roof",
-            "round", "royal", "rubber", "running-streaks", "rust", "saddle", "sand",
-            "satin-weave", "sauvage", "scales", "school", "scifi", "scratches", "seam",
-            "self-dotted", "self", "seventies", "shattered", "sheep", "sheer",
-            "shattered-island", "shattered-dark", "shimmer", "shingles", "shirt", "shock",
-            "shoot", "shopping-bag", "shattered", "shrink", "sibling", "sift", "silk",
-            "silly", "silver-scales", "sinister", "skein", "skeleton", "skewed-stripes",
-            "slash-it", "slime", "slipper", "slop", "smash", "smooth-stucco",
-            "smooth-tile", "snow", "soap", "social", "sock", "soft-circle", "soft-kid",
-            "solar", "solid", "solution", "some-kind-of-dots", "sonaris", "soothe",
-            "soup", "sparks", "speak", "speech-bubbles", "spider", "spiky", "splash",
-            "squares", "stained-glass", "stardust", "stars", "stitched", "stone",
-            "stop", "strange-bull", "strange-galaxy", "stripes", "stucco", "subtle",
-            "subtle-circles", "subtle-dots", "subtle-prism", "subtlenet", "sugar",
-            "swamp", "sweater", "swirl", "swm", "synthetic", "table-cloth", "target",
-            "text", "texture", "thank-you", "tiles", "tiny-dots", "tiny-grid", "toast",
-            "tom", "topography", "tournament", "tower", "toxic", "trace", "tracks",
-            "transparency", "transparent", "tree-bark", "triangle", "triangles",
-            "trunk", "tufted", "tweed", "twisted", "typography", "ubiquitous", "umbrella",
-            "unclamped", "underline", "unique", "united-kingdom", "university", "uranus",
-            "used-brick", "vagabond", "valley", "variation", "vaio", "vector", "veneer",
-            "vertical-striped", "vichy", "victorian", "videos", "vintage", "vinyl",
-            "vinyl-roofing", "voodoo", "washi", "waste", "wave", "wavy", "wdb",
-            "weave", "white-brick-wall", "white-carbon", "white-leather", "white-linen",
-            "white-plastic", "white-sand", "white-tile", "white-diamond", "white-wall",
-            "white-wave", "wicker", "wide-rectangle", "wild-sea", "willow", "wimbledon",
-            "wood-pattern", "woven", "wrapping", "woven-shield", "x-equals",
-            "xv", "yellow-crumbs", "yellow-dust", "zebra", "zigzag"
+        const patterns = [
+            { name: "dots-small", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="3" fill="#333"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMyIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==" },
+            { name: "dots-medium", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="5" fill="#333"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iNSIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==" },
+            { name: "dots-large", svg: `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="8" fill="#333"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iOCIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==" },
+            { name: "dots-dense", svg: `<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg"><circle cx="7.5" cy="7.5" r="2" fill="#333"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNy41IiBjeT0iNy41IiByPSIyIiBmaWxsPSIjMzMzIi8+PC9zdmc+" },
+            { name: "grid-thin", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="none"/><path d="M0 10h20M10 0v20" stroke="#333" stroke-width="0.5"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGgyMHYyMEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDIwTTEwIDB2MjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3N2Zz4=" },
+            { name: "grid-thick", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="none"/><path d="M0 10h20M10 0v20" stroke="#333" stroke-width="2"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGgyMHYyMEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDIwTTEwIDB2MjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+" },
+            { name: "grid-large", svg: `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDIwaDQwTTIwIDB2NDAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "diagonal-thin", svg: `<svg width="10" height="10" xmlns="http://www.w3.org/2000/svg"><path d="M0 10L10 0" stroke="#333" stroke-width="0.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTBMMTAgMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjAuNSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" },
+            { name: "diagonal-medium", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 20L20 0" stroke="#333" stroke-width="1" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjBMMjAgMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "diagonal-thick", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 20L20 0" stroke="#333" stroke-width="3" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjBMMjAgMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "diagonal-both", svg: `<svg width="10" height="10" xmlns="http://www.w3.org/2000/svg"><path d="M0 10L10 0M0 0L10 10" stroke="#333" stroke-width="0.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTBMMTAgME0wIDBMMTAgMTAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "crosshatch", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="none"/><path d="M0 0l20 20M20 0l-20 20" stroke="#333" stroke-width="0.5"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGgyMHYyMEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDBsMjAgMjBNMjAgMGwtMjAgMjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3N2Zz4=" },
+            { name: "crosshatch-wide", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l30 30M30 0l-30 30" stroke="#333" stroke-width="1" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwzMCAzME0zMCAwbC0zMCAzMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "waves-thin", svg: `<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q10 0 20 10 T40 10" stroke="#333" stroke-width="0.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTAgUTEwIDAgMjAgMTAgVDQwIDEwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIi8+PC9zdmc+" },
+            { name: "waves-medium", svg: `<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q10 0 20 10 T40 10" stroke="#333" stroke-width="1.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTAgUTEwIDAgMjAgMTAgVDQwIDEwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIi8+PC9zdmc+" },
+            { name: "waves-thick", svg: `<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q10 0 20 10 T40 10" stroke="#333" stroke-width="3" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTAgUTEwIDAgMjAgMTAgVDQwIDEwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" },
+            { name: "zigzag", svg: `<svg width="30" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M0 15L7.5 0l7.5 15 7.5-15 7.5 15" stroke="#333" stroke-width="1" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMTUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTVMNy41IDBsNy41IDE1IDcuNS0xNSA3LjUgMTUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIi8+PC9zdmc+" },
+            { name: "zigzag-thick", svg: `<svg width="30" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M0 15L7.5 0l7.5 15 7.5-15 7.5 15" stroke="#333" stroke-width="2" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMTUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTVMNy41IDBsNy41IDE1IDcuNS0xNSA3LjUgMTUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PC9zdmc+" },
+            { name: "chevron", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l10 10 10-10" stroke="#333" stroke-width="1.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMCAxMCAxMC0xMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" },
+            { name: "chevron-thick", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l10 10 10-10" stroke="#333" stroke-width="3" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMCAxMCAxMC0xMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "chevron-down", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10l10 10 10-10" stroke="#333" stroke-width="1.5" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTBsMTAgMTAgMTAtMTAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" },
+            { name: "hexagons", svg: `<svg width="25" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 0l10.5 6v12l-10.5 6-10.5-6V6z" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyLjUgMGwxMC41IDZ2MTJsLTEwLjUgNi0xMC41LTZWNnoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "hexagons-filled", svg: `<svg width="25" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 0l10.5 6v12l-10.5 6-10.5-6V6z" fill="#333" fill-opacity="0.1" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyLjUgMGwxMC41IDZ2MTJsLTEwLjUgNi0xMC41LTZWNnoiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4xIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==" },
+            { name: "hexagons-dense", svg: `<svg width="15" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 0l6.5 4v7.5l-6.5 4-6.5-4V4z" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTcuNSAwbDYuNSA0djcuNWwtNi41IDQtNi41LTRWNHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "triangles-up", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l10 20H0z" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDBsMTAgMjBIMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "triangles-down", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l10 20 10-20z" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwxMCAyMCAxMC0yMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "triangles-up-filled", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l10 20H0z" fill="#333" fill-opacity="0.1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDBsMTAgMjBIMHoiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+" },
+            { name: "circles-outlined", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="10" fill="none" stroke="#333" stroke-width="1"/><circle cx="30" cy="30" r="10" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==" },
+            { name: "circles-filled", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="10" fill="#333" fill-opacity="0.1"/><circle cx="30" cy="30" r="10" fill="#333" fill-opacity="0.1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==" },
+            { name: "circles-large", svg: `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="15" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" },
+            { name: "squares", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="16" height="16" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==" },
+            { name: "squares-filled", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="16" height="16" fill="#333" fill-opacity="0.1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==" },
+            { name: "squares-rotated", svg: `<svg width="28" height="28" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="20" height="20" fill="none" stroke="#333" stroke-width="1" transform="rotate(45 14 14)"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMTQgMTQpIi8+PC9zdmc+" },
+            { name: "diamonds", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l10 10-10 10-10-10z" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDBsMTAgMTAtMTAgMTAtMTAtMTB6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==" },
+            { name: "diamonds-filled", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l10 10-10 10-10-10z" fill="#333" fill-opacity="0.1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDBsMTAgMTAtMTAgMTAtMTAtMTB6IiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==" },
+            { name: "stars", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><polygon points="15,0 18,11 30,11 20,17 24,28 15,22 6,28 10,17 0,11 12,11" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSIxNSwwIDE4LDExIDMwLDExIDIwLDE3IDI0LDI4IDE1LDIyIDYsMjggMTAsMTcgMCwxMSAxMiwxMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=" },
+            { name: "stars-filled", svg: `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg"><polygon points="15,0 18,11 30,11 20,17 24,28 15,22 6,28 10,17 0,11 12,11" fill="#333" fill-opacity="0.1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSIxNSwwIDE4LDExIDMwLDExIDIwLDE3IDI0LDI4IDE1LDIyIDYsMjggMTAsMTcgMCwxMSAxMiwxMSIgZmlsbD0iIzMzMyIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3N2Zz4=" },
+            { name: "plus", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0v20M0 10h20" stroke="#333" stroke-width="1.5"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDB2MjBNMCAxMGgyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPjwvc3ZnPg==" },
+            { name: "plus-thick", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10 0v20M0 10h20" stroke="#333" stroke-width="3"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDB2MjBNMCAxMGgyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" },
+            { name: "x-mark", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l20 20M20 0l-20 20" stroke="#333" stroke-width="1.5"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwyMCAyME0yMCAwbC0yMCAyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPjwvc3ZnPg==" },
+            { name: "checkerboard", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" fill="#333" fill-opacity="0.2"/><rect x="10" y="10" width="10" height="10" fill="#333" fill-opacity="0.2"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==" },
+            { name: "checkerboard-dark", svg: `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" fill="#333" fill-opacity="0.5"/><rect x="10" y="10" width="10" height="10" fill="#333" fill-opacity="0.5"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjwvc3ZnPg==" },
+            { name: "stripes-vertical", svg: `<svg width="10" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="5" height="20" fill="#333" fill-opacity="0.2"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjUiIGhlaWdodD0iMjAiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+" },
+            { name: "stripes-horizontal", svg: `<svg width="20" height="10" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="20" height="5" fill="#333" fill-opacity="0.2"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjUiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4yIi8+PC9zdmc+" },
+            { name: "stripes-thin", svg: `<svg width="10" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="2" height="20" fill="#333"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIiIGhlaWdodD0iMjAiIGZpbGw9IiMzMzMiLz48L3N2Zz4=" },
+            { name: "brick", svg: `<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="20" height="10" fill="none" stroke="#333" stroke-width="1"/><rect x="20" y="0" width="20" height="10" fill="none" stroke="#333" stroke-width="1"/><rect x="-10" y="10" width="20" height="10" fill="none" stroke="#333" stroke-width="1"/><rect x="10" y="10" width="20" height="10" fill="none" stroke="#333" stroke-width="1"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjIwIiB5PSIwIiB3aWR0aD0iMjAiIGhlaWdodD0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iLTEwIiB5PSIxMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==" },
+            { name: "herringbone", svg: `<svg width="40" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l20 20M20 0l20 20" stroke="#333" stroke-width="1" fill="none"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGwyMCAyME0yMCAwbDIwIDIwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" },
+            { name: "noise", svg: `<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><rect width="4" height="4" fill="#333" fill-opacity="0.05"/><circle cx="1" cy="1" r="0.5" fill="#333" fill-opacity="0.3"/><circle cx="3" cy="3" r="0.5" fill="#333" fill-opacity="0.3"/></svg>`, data: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjxjaXJjbGUgY3g9IjEiIGN5PSIxIiByPSIwLjUiIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4zIi8+PGNpcmNsZSBjeD0iMyIgY3k9IjMiIHI9IjAuNSIgZmlsbD0iIzMzMyIgZmlsbC1vcGFjaXR5PSIwLjMiLz48L3N2Zz4=" },
         ];
-
+        
         const grid = document.getElementById('grid');
         const search = document.getElementById('search');
         const count = document.getElementById('count');
-
-        function render(texturesToShow) {
-            grid.innerHTML = texturesToShow.map(t => `
+        
+        function render(list) {
+            grid.innerHTML = list.map(p => `
                 <div class="card">
-                    <div class="card-preview" style="background-image: url('https://www.transparenttextures.com/patterns/${t}.png')"></div>
-                    <div class="card-content">
-                        <div class="card-title">${t.replace(/-/g, ' ')}</div>
-                        <a href="https://www.transparenttextures.com/patterns/${t}.png" target="_blank" class="card-link">View</a>
-                        <a href="https://www.transparenttextures.com/patterns/${t}.png" download class="card-link secondary">↓</a>
+                    <div class="preview">${p.svg}</div>
+                    <div class="info">
+                        <div class="name">${p.name}</div>
+                        <a href="${p.name}.svg" download class="btn">↓ SVG</a>
                     </div>
                 </div>
             `).join('');
-            count.textContent = `${texturesToShow.length} textures`;
+            count.textContent = `${list.length} patterns`;
         }
-
-        render(textures);
-
-        search.addEventListener('input', (e) => {
+        
+        render(patterns);
+        
+        search.addEventListener('input', e => {
             const q = e.target.value.toLowerCase();
-            const filtered = textures.filter(t => t.toLowerCase().includes(q));
-            render(filtered);
+            render(patterns.filter(p => p.name.toLowerCase().includes(q)));
         });
     </script>
 </body>
