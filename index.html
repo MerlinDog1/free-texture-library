@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Texture Library</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #58a6ff, #a371f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 40px;
+        }
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            display: block;
+            padding: 14px 20px;
+            font-size: 16px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88,166,255,0.2);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border-color: #58a6ff;
+        }
+        .card-preview {
+            height: 120px;
+            background: #21262d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #8b949e;
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+        }
+        .card-content { padding: 16px; }
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+        .card-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #238636;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .card-link:hover { background: #2ea043; }
+        .card-link.secondary {
+            background: #30363d;
+            margin-left: 8px;
+        }
+        .card-link.secondary:hover { background: #3d444d; }
+        .count {
+            text-align: center;
+            color: #8b949e;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧱 Free Texture Library</h1>
+        <p class="subtitle">Seamless textures for sign industry & design projects</p>
+        
+        <input type="text" class="search-box" placeholder="Search textures..." id="search">
+        
+        <div class="grid" id="grid"></div>
+        
+        <p class="count" id="count"></p>
+    </div>
+
+    <script>
+        const textures = [
+            "3px-tile", "45-degree-fabric-dark", "45-degree-fabric-light", "60-lines", 
+            "absurdity", "ag-square", "always-grey", "arabesque", "argyle", "asphalt-dark",
+            "asphalt-light", "awful-foundation", "baby-cloth", "back-pattern", "balloon",
+            "bamboo", "banana-leaf", "bathroom-tile", "beige-tile", "birds", "black-scales",
+            "black-twill", "blizzard", "blood-splat", "blue-dust", "blue-snow", "board",
+            "bo-play", "brushed-alum", "brushed-stucco", "bubbles", "cable", "cake-frosting",
+            "camo", "canvas", "cardboard-flat", "cardboard", "cartographer", "chevron",
+            "chicken-coop", "china-paper", "chips", "christmas", "church", "circles",
+            "clever", "cloth-alibi", "cloth", "clouds", "cobblestone", "code", "coffee-beans",
+            "concrete-wall", "connected", "cork-screw", "cork", "cornice", "corona", "corrugation",
+            "cubes", "cushion", "cuttile", "daisy-meadow", "dark-matter", "dark-denim",
+            "dark-leather", "dark-mosaic", "dark-stripes", "daytripper", "debut-dust", "debut",
+            "delighted", "dent", "diagonal-striped", "diagonal", "diamonds-are-forever",
+            "diamond-eyes", "dirty-black", "dirty-cloth", "dmg", "dots", "double-l不止",
+            "drywall", "duck-concrete", "east-coast", "egg-shell", "elastoplast", "elegant",
+            "escher", "extra-clean-paper", "fabric-of-squares", "fade-gap", "fancy-deboss",
+            "fancy", "farm-fresh", "felt", "fiber", "fifties-flake", "film", "fire",
+            "fish-scales", "flame", "flannel", "flask", "fluid-bubble", "folded",
+            "follows", "fours", "frost", "frozen", "fur", "gaming", "geometric",
+            "ghost", "glamour", "glass", "gplay", "gradient-squares", "graphy", "graffiti",
+            "green-dust", "green-scales", "green-tissue", "grey-jeans", "grey-sand",
+            "grid-me", "grilled", "groovepaper", "gunmetal", "halftone", "hand", "heads",
+            "heart", "hearts", "hell-or-clean", "hex", "honeycomb", "hook", "horizons",
+            "hot-embroidery", "ice", "inflicted", "inhale", "ink", "interlaced",
+            "intrinse", "jade", "jeans", "jigsaw", "kafka", "kilim", "knitted-netting",
+            "kuro", "large-leather", "latex", "leaf", "leather", "leaves", "legal",
+            "lemon", "leopard", "light", "light-album", "light-grey-sand", "light-honeycomb",
+            "light-mesh", "light-ROTOP", "light-sketch", "lime-scales", "linen", "lines",
+            "little-plaid", "little-triangles", "loose-fabric", "lunar", "lush", "magnetic",
+            "man-p结构性", "marble", "marbles", "matrix", "me", "mega", "melon", "mesh",
+            "metal", "microbial", "micro-carbon", "micro-cubes", "micro-dot", "micro-lines",
+            "micro-plaid", "midnight", "milan", "milk-mosaic", "milky-way", "minimal",
+            "mint", "miracle", "mist", "mocha", "mooning", "mortar", "mosaic", "moss",
+            "mouth", "muck", "nami", "navy", "neon", "net", "no-borders", "noise",
+            "north-star", "nylon", "obscure", "ocean", "offset", "oil", "old-bull",
+            "old-coins", "old-curtain", "old-lace", "old-map", "old-math", "old-paper",
+            "old-wall", "olive", "onetime", "op-art", "optical", "orange-peel", "ornamental",
+            "otis-redding", "overcast", "p4", "painting", "paisley", "paper", "park",
+            "particles", "passion", "path", "pearlescent", "pebble", "pecky-cedar", "pegel",
+            "penny-farthing", "perspective", "peters-web", "petit", "pig",
+            "pigeon", "pin-cushion", "pineapple", "pink-wool", "pinstripe", "plaid",
+            "plant", "plateau", "plaid-tile", "plays", "plexiglass", "plum", "plus",
+            "pocket", "poetry", "poise", "polka-dots", "poly", "pool-table", "poor-withered",
+            "pop-art", "popcorn", "positive", "prague", "prickly", "program", "project",
+            "proud", "psychedelic", "pulse", "punk", "pure-white", "pyramid", "quilt",
+            "r-x", "racing", "radar", "rain", "ram", "random-subtle", "ravenna", "real-carbon",
+            "rebel", "red-ananas", "red-brick-wall", "redox", "refraction", "rest",
+            "rich", "ridge", "rip", "ripe-banana", "rock", "rojo", "roman", "roof",
+            "round", "royal", "rubber", "running-streaks", "rust", "saddle", "sand",
+            "satin-weave", "sauvage", "scales", "school", "scifi", "scratches", "seam",
+            "self-dotted", "self", "seventies", "shattered", "sheep", "sheer",
+            "shattered-island", "shattered-dark", "shimmer", "shingles", "shirt", "shock",
+            "shoot", "shopping-bag", "shattered", "shrink", "sibling", "sift", "silk",
+            "silly", "silver-scales", "sinister", "skein", "skeleton", "skewed-stripes",
+            "slash-it", "slime", "slipper", "slop", "smash", "smooth-stucco",
+            "smooth-tile", "snow", "soap", "social", "sock", "soft-circle", "soft-kid",
+            "solar", "solid", "solution", "some-kind-of-dots", "sonaris", "soothe",
+            "soup", "sparks", "speak", "speech-bubbles", "spider", "spiky", "splash",
+            "squares", "stained-glass", "stardust", "stars", "stitched", "stone",
+            "stop", "strange-bull", "strange-galaxy", "stripes", "stucco", "subtle",
+            "subtle-circles", "subtle-dots", "subtle-prism", "subtlenet", "sugar",
+            "swamp", "sweater", "swirl", "swm", "synthetic", "table-cloth", "target",
+            "text", "texture", "thank-you", "tiles", "tiny-dots", "tiny-grid", "toast",
+            "tom", "topography", "tournament", "tower", "toxic", "trace", "tracks",
+            "transparency", "transparent", "tree-bark", "triangle", "triangles",
+            "trunk", "tufted", "tweed", "twisted", "typography", "ubiquitous", "umbrella",
+            "unclamped", "underline", "unique", "united-kingdom", "university", "uranus",
+            "used-brick", "vagabond", "valley", "variation", "vaio", "vector", "veneer",
+            "vertical-striped", "vichy", "victorian", "videos", "vintage", "vinyl",
+            "vinyl-roofing", "voodoo", "washi", "waste", "wave", "wavy", "wdb",
+            "weave", "white-brick-wall", "white-carbon", "white-leather", "white-linen",
+            "white-plastic", "white-sand", "white-tile", "white-diamond", "white-wall",
+            "white-wave", "wicker", "wide-rectangle", "wild-sea", "willow", "wimbledon",
+            "wood-pattern", "woven", "wrapping", "woven-shield", "x-equals",
+            "xv", "yellow-crumbs", "yellow-dust", "zebra", "zigzag"
+        ];
+
+        const grid = document.getElementById('grid');
+        const search = document.getElementById('search');
+        const count = document.getElementById('count');
+
+        function render(texturesToShow) {
+            grid.innerHTML = texturesToShow.map(t => `
+                <div class="card">
+                    <div class="card-preview" style="background-image: url('https://www.transparenttextures.com/patterns/${t}.png')"></div>
+                    <div class="card-content">
+                        <div class="card-title">${t.replace(/-/g, ' ')}</div>
+                        <a href="https://www.transparenttextures.com/patterns/${t}.png" target="_blank" class="card-link">View</a>
+                        <a href="https://www.transparenttextures.com/patterns/${t}.png" download class="card-link secondary">↓</a>
+                    </div>
+                </div>
+            `).join('');
+            count.textContent = `${texturesToShow.length} textures`;
+        }
+
+        render(textures);
+
+        search.addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            const filtered = textures.filter(t => t.toLowerCase().includes(q));
+            render(filtered);
+        });
+    </script>
+</body>
+</html>
